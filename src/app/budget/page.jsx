@@ -122,12 +122,16 @@ export default function BudgetPage() {
 
   const load = async () => {
     if (!user) return
+    const [year, mon] = month.split('-').map(Number)
+    const nextMonth = mon === 12
+      ? `${year + 1}-01`
+      : `${year}-${String(mon + 1).padStart(2, '0')}`
     const [{ data: cats }, { data: buds }, { data: txs }] = await Promise.all([
       supabase.from('categories').select('*').eq('user_id', user.id),
       supabase.from('budgets').select('*').eq('user_id', user.id).eq('month', month),
       supabase.from('transactions').select('amount, category_id').eq('user_id', user.id)
         .gte('date', month + '-01')
-        .lte('date', month + '-31')
+        .lt('date', nextMonth + '-01')
         .eq('type', 'expense'),
     ])
 
