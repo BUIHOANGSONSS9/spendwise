@@ -69,7 +69,7 @@ function Modal({ open, onClose, onSave, editBudget, categories }) {
             <select value={form.category_id} onChange={e => setForm({ ...form, category_id: e.target.value })}
               required className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-indigo-500 bg-white">
               <option value="">Chọn danh mục</option>
-              {categories.filter(c => c.type === 'expense').map(c => (
+              {categories.map(c => (
                 <option key={c.id} value={c.id}>{c.icon} {c.name}</option>
               ))}
             </select>
